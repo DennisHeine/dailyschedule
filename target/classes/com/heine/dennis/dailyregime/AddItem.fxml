@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="141.0" prefWidth="298.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.heine.dennis.dailyregime.AddItemController">
+   <children>
+      <Label alignment="TOP_LEFT" layoutX="12.0" layoutY="18.0" text="Task" />
+      <TextField id="d" fx:id="txtName" layoutX="77.0" layoutY="13.0" prefHeight="26.0" prefWidth="201.0" />
+      <Label layoutX="14.0" layoutY="56.0" text="Due to" />
+      <Spinner fx:id="txtBisStunde" editable="true" layoutX="79.0" layoutY="53.0" prefHeight="26.0" prefWidth="71.0" />
+      <Spinner fx:id="txtBisMinute" editable="true" layoutX="175.0" layoutY="53.0" prefHeight="26.0" prefWidth="71.0" />
+      <Label layoutX="160.0" layoutY="48.0" text=":">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="250.0" layoutY="58.0" text="h">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button id="bnOK" defaultButton="true" layoutX="91.0" layoutY="100.0" mnemonicParsing="false" onAction="#onOkButtonClick" prefHeight="26.0" prefWidth="89.0" text="OK" />
+      <Button cancelButton="true" layoutX="190.0" layoutY="100.0" mnemonicParsing="false" onAction="#onCancelButtonClick" prefHeight="26.0" prefWidth="89.0" text="Cancel" />
+   </children>
+</AnchorPane>
