@@ -5,13 +5,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="header" prefHeight="339.0" prefWidth="173.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.heine.dennis.dailyregime.ScheduleController">
+<VBox fx:id="header" prefHeight="339.0" prefWidth="173.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.heine.dennis.dailyregime.ScheduleController">
    <children>
       <HBox alignment="CENTER_RIGHT" prefHeight="15.0" prefWidth="173.0" style="-fx-background-color: black;">
          <children>
             <Pane prefHeight="16.0" prefWidth="18.0" />
-            <Label alignment="CENTER" prefHeight="16.0" prefWidth="175.0" text="Daily Schedule" textAlignment="CENTER" textFill="#d3d2d2" />
-            <Button fx:id="welcomeText" maxHeight="15.0" maxWidth="15.0" minHeight="15.0" minWidth="15.0" mnemonicParsing="false" onAction="#onCloseClick" prefHeight="15.0" prefWidth="15.0" style="-fx-background-image: url(' close.png'); -fx-background-size: 15px; -fx-background-repeat: none;">
+            <Label alignment="CENTER" prefHeight="16.0" prefWidth="137.0" text="Daily Schedule" textAlignment="CENTER" textFill="#d3d2d2" />
+            <Button fx:id="bnFloating" layoutX="168.0" layoutY="11.0" maxHeight="15.0" maxWidth="15.0" minHeight="15.0" minWidth="15.0" mnemonicParsing="false" onAction="#onFloatingClick" prefHeight="15.0" prefWidth="15.0" style="-fx-background-image: url('floating.png'); -fx-background-size: 15px; -fx-background-repeat: none;">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="welcomeText" maxHeight="15.0" maxWidth="15.0" minHeight="15.0" minWidth="15.0" mnemonicParsing="false" onAction="#onCloseClick" prefHeight="15.0" prefWidth="15.0" style="-fx-background-image: url('close.png'); -fx-background-size: 15px; -fx-background-repeat: none;">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>

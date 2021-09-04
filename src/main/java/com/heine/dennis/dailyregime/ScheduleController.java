@@ -10,9 +10,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.awt.*;
+
 public class ScheduleController {
     @FXML
     private Button welcomeText;
+
+    @FXML private Button bnFloating;
 
     @FXML
     protected static VBox header;
@@ -25,10 +29,16 @@ public class ScheduleController {
     }
 
     @FXML
+    protected void onFloatingClick()
+    {
+        ScheduleApplication.toggleFloating();
+    }
+
+    @FXML
     protected void onNewTaskButtonClick() {
         try {
             Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(ScheduleApplication.class.getResource("AddItemController.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(ScheduleApplication.class.getResource("AddItem.fxml"));
 
             AnchorPane scn = fxmlLoader.load();
             Scene scene = new Scene(scn);
@@ -38,7 +48,8 @@ public class ScheduleController {
             stage.setTitle("Add Task");
             stage.setScene(scene);
             stage.setOnHidden(onHidden());
-            stage.show();
+            stage.showAndWait();
+            ScheduleApplication.stage.setY((Toolkit.getDefaultToolkit().getScreenSize().getHeight() - ScheduleApplication.stage.getHeight() + 65) / 2);
 
         }catch(Exception e){System.out.println(e.getMessage()+e.getStackTrace());}
     }

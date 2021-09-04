@@ -2,8 +2,10 @@ package com.heine.dennis.dailyregime;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -12,6 +14,7 @@ public class AddItemController {
 
     @FXML
     private TextField txtName;
+
 
     @FXML private Spinner txtBisStunde;
 
@@ -56,6 +59,7 @@ public class AddItemController {
                 String sql1 = "INSERT INTO TASKS (NAME,WEIGHT,UNTIL) " +
                         "VALUES ('" + txtName.getText().toString() + "'," + max + ", " + String.valueOf(until) + " );";
                 stmt.executeUpdate(sql1);
+
 
                 Stage stage = (Stage) txtName.getScene().getWindow();
 

@@ -23,9 +23,10 @@ public class ScheduleApplication extends Application {
 
     public static Connection c;
     public static VBox root;
-    private Stage stage;
+    public static Stage stage;
     public static int currentItemId=0;
     private static boolean isRuning=true;
+    public static boolean floating=false;
     private static final String iconImageLoc = "Images/icon.png";
     private DateFormat timeFormat = SimpleDateFormat.getTimeInstance();
 
@@ -79,7 +80,23 @@ public class ScheduleApplication extends Application {
     private void showStage() {
         if (stage != null) {
             stage.show();
+            ScheduleApplication.stage.setY((Toolkit.getDefaultToolkit().getScreenSize().getHeight() - ScheduleApplication.stage.getHeight() + 65) / 2);
+            new OutputPrinter(root).print();
             stage.toFront();
+        }
+    }
+
+    private static void resizeThread(){
+        while(isRuning && !floating)
+        {
+            try {
+                String[] cmd = new String[]{"/bin/bash", "-c", "[ $(xwininfo -id $(xdotool getactivewindow) -all | awk '/Maximized/{print}' | wc -l) -eq 2 ] && (wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz ; wmctrl -r :ACTIVE: -e 0,1,1,1,1 ; wmctrl -r :ACTIVE: -e 0,0,0,1720,1080)"};
+                Process pr = Runtime.getRuntime().exec(cmd);
+                Thread.sleep(500);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            // [ $(xwininfo -id $(xdotool getactivewindow) -all | awk '/Maximized/{print}' | wc -l) -eq 2 ] & (wmctrl -r :ACTIVE: -b remove,maximized_vert,maximized_horz & wmctrl -r :ACTIVE: -e 0,1,1,1,1 & wmctrl -r :ACTIVE: -e 0,1,1,1720,1080)
         }
     }
 
@@ -159,28 +176,70 @@ public class ScheduleApplication extends Application {
         Scene scene = new Scene(root);
 
         stage.setAlwaysOnTop(true);
-        stage.setTitle("Daily Regime");
+        stage.setTitle("Daily Schedule");
         stage.setScene(scene);
-        stage.setResizable(false);
+       // stage.setResizable(false);
 
-        stage.setMinHeight((Toolkit.getDefaultToolkit().getScreenSize().getHeight()/3)*2);
+
+        stage.setMinHeight(300);
+        root.setMinHeight(300);
         stage.setMinWidth(200);
-        root.setMinHeight((Toolkit.getDefaultToolkit().getScreenSize().getHeight()/3)*2);
+
         root.setMinWidth(200);
 
         stage.setX(Toolkit.getDefaultToolkit().getScreenSize().getWidth()-stage.getMinWidth());
-        stage.setY((Toolkit.getDefaultToolkit().getScreenSize().getHeight()-stage.getMinHeight())/2);
+        if(floating) {
+            ScheduleApplication.stage.setY((Toolkit.getDefaultToolkit().getScreenSize().getHeight() - ScheduleApplication.stage.getHeight() + 65) / 2);
+        }
+       else {
+            stage.setMinHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+            stage.setY(0);
+        }
+
+
+
+
         stage.initStyle(StageStyle.UNDECORATED);
 
         stage.show();
 
         new OutputPrinter(root).print();
+
         (new MainThread()).start();
+        if(!floating)
+            (new ResizeThread()).start();
 
     }
     public class MainThread extends Thread {
         public void run() {
             timerThread();
+        }
+    }
+
+    public static class ResizeThread extends Thread {
+        public void run() {
+            resizeThread();
+        }
+    }
+
+    public static void toggleFloating()
+    {
+        if(floating)
+        {
+            floating=false;
+            (new ResizeThread()).start();
+            stage.setMinHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+            stage.setY(0);
+
+        }
+        else
+        {
+            floating=true;
+            stage.setMinHeight(300);
+            root.setMinHeight(300);
+            new OutputPrinter(root).print();
+
+            ScheduleApplication.stage.setY((Toolkit.getDefaultToolkit().getScreenSize().getHeight() - ScheduleApplication.stage.getHeight() + 65) / 2);
         }
     }
 
