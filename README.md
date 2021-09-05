@@ -3,6 +3,7 @@
 Requirements:<br>
 -JRE 16<br>
 -javafx (only on Linux)<br>
+-xdotool (only on Linux)<br>
 <br>
 To start, call run.sh or run.bat, depending on your OS<br>
 On Linux you do have the option to switch to a static bar instead of a floating one.<br><br>
