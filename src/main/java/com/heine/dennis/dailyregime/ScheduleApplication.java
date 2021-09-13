@@ -13,6 +13,9 @@ import java.awt.*;
 import java.io.File;
 import java.sql.*;
 
+import com.sun.jna.Library;
+import com.sun.jna.Native;
+//import com.sun.jna.Platform;
 import java.io.IOException;
 
 import java.text.DateFormat;
@@ -26,9 +29,13 @@ public class ScheduleApplication extends Application {
     public static Stage stage;
     public static int currentItemId=0;
     private static boolean isRuning=true;
-    public static boolean floating=false;
+    public static boolean floating=true;
     private static final String iconImageLoc = "Images/icon.png";
     private DateFormat timeFormat = SimpleDateFormat.getTimeInstance();
+    private static Process wsaProc;
+
+
+
 
     //Source: https://stackoverflow.com/questions/40571199/creating-tray-icon-using-javafx
     private void addAppToTray() {
@@ -80,7 +87,25 @@ public class ScheduleApplication extends Application {
     private void showStage() {
         if (stage != null) {
             stage.show();
-            ScheduleApplication.stage.setY((Toolkit.getDefaultToolkit().getScreenSize().getHeight() - ScheduleApplication.stage.getHeight() + 65) / 2);
+            if(!floating)
+            {
+                (new ResizeThread()).start();
+
+                stage.setMinHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+                stage.setY(0);
+
+                new OutputPrinter(root).print();
+            }
+            else
+            {
+
+                stage.setMinHeight(300);
+                root.setMinHeight(300);
+                new OutputPrinter(root).print();
+
+                ScheduleApplication.stage.setY((Toolkit.getDefaultToolkit().getScreenSize().getHeight() - ScheduleApplication.stage.getHeight() + 65) / 2);
+            }
+            //ScheduleApplication.stage.setY((Toolkit.getDefaultToolkit().getScreenSize().getHeight() - ScheduleApplication.stage.getHeight() + 65) / 2);
             new OutputPrinter(root).print();
             stage.toFront();
         }
@@ -206,8 +231,20 @@ public class ScheduleApplication extends Application {
         new OutputPrinter(root).print();
 
         (new MainThread()).start();
+
         if(!floating)
+        {
+            stage.setMinHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+            stage.setY(0);
+        }
+        else
+        {
             (new ResizeThread()).start();
+            stage.setMinHeight(300);
+            root.setMinHeight(300);
+            ScheduleApplication.stage.setY((Toolkit.getDefaultToolkit().getScreenSize().getHeight() - ScheduleApplication.stage.getHeight() + 65) / 2);
+        }
+
 
     }
     public class MainThread extends Thread {
@@ -227,6 +264,7 @@ public class ScheduleApplication extends Application {
         if(floating)
         {
             floating=false;
+
             (new ResizeThread()).start();
             stage.setMinHeight(Toolkit.getDefaultToolkit().getScreenSize().getHeight());
             stage.setY(0);
@@ -235,6 +273,8 @@ public class ScheduleApplication extends Application {
         else
         {
             floating=true;
+            if(wsaProc!=null)
+                wsaProc.destroy();
             stage.setMinHeight(300);
             root.setMinHeight(300);
             new OutputPrinter(root).print();

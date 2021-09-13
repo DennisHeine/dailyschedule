@@ -31,7 +31,9 @@ public class ScheduleController {
     @FXML
     protected void onFloatingClick()
     {
-        ScheduleApplication.toggleFloating();
+        String os = System.getProperty("os.name");
+        if(!os.contains("Windows"));
+            ScheduleApplication.toggleFloating();
     }
 
     @FXML
